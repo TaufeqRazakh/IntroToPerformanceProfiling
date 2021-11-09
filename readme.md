@@ -4,10 +4,17 @@ CSCI 596: Scientific Computing and Visualization
 ## Pre-requisite - Installing the profiler GUI
 Download & install the latest version of the Intel oneAPI Vtune Profiler GUI from this [link](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler-download.html).
 
-After installing, launch the GUI from the installed directory depending on your OS.
+Upon installation, launch the GUI from the installation directory depending on your OS.
 - windows: [Program Files]\Intel\oneAPI\vtune\<version>
 - Linux OS: /opt/intel/oneapi/vtune/\<version>
 - mac OS: /opt/intel/oneapi/vtune_profiler/\<version>
+
+Download and install the latest version of Intel Advisor [here](https://www.intel.com/content/www/us/en/developer/articles/tool/oneapi-standalone-components.html#advisor)
+
+Upon installation, launch the GUI from from the installation directory depending on your OS.
+- windows: [Program Files]\Intel\oneAPI\advisor\<version>
+- Linux OS: /opt/intel/oneapi/advisor/\<version>
+- mac OS: /opt/intel/oneapi/advisor/\<version>
 
 ## CPU profiling with Vtune
 
@@ -82,7 +89,17 @@ We see that a total of 2 threads are created in the execution
 ![omp_2_thread_activity](img/omp_2_thread_activity.png)
 We can analyse the activity of the threads that we create
 ![omp_2_function_memory_allocation](img/omp_2_function_memory_allocation.png)
-We also see the memory allocations and deallocations happening in
+We also see the memory allocations and deallocations happening across the call stack.
+
+## Roofline analysis with advisor
+
+in the same working directory as before, type in the following command
+
+```
+ advixe-cl -collect roofline -project-dir roofline_analysis ./multithreaded_pi_calc
+```
+
+Import the report to your local machine and view it with the Advisor GUI.
 
 
 
