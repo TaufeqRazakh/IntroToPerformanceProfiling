@@ -97,14 +97,14 @@ We can analyze the activity of the threads that are forked
 We also see the memory allocations and deallocations happening across the call stack.
 
 ## Roofline analysis with advisor
-For this section we will be working in Devclouds compute node. We will be referring to the sample code that is provided by intel and placed under the [roofline_analysis](/cpu_profiling/roofline_analysis) directory.
+For this section we will be working on Devcloud's compute node. We will be referring to the sample code provided by intel. This is made available to you under the [roofline_analysis](/cpu_profiling/roofline_analysis) directory.
 Compile the project with the `make` command and generate a roofline report with the following command.
 
 ```
  advixe-cl -collect roofline -project-dir roofline_analysis ./multithreaded_pi_calc
 ```
 
-Import the report to your local machine and view it with the Advisor GUI. Steps to download and open advisor are mentioned in the pre-requisite section. 
+Import the report to your local machine and view it with the Advisor GUI. Steps to download and open advisor are mentioned in the pre-requisite section.
 
 ## Quirks
 
