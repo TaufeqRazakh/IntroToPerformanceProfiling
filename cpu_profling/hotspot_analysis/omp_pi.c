@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <omp.h>
-#define NBIN 100000
+#define NBIN 10000000
 #define MAX_THREADS 8
 
 int main() {

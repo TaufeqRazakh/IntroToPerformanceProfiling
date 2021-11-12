@@ -1,4 +1,5 @@
-CFLAGS =-qopt-report=5 -simd -vec -O2 -g -qopenmp
+CFLAGS = -vec -O2 -g -qopenmp -qopenmp-simd
+CC = icx
 
 singlethreaded_pi_calc: pi.o
 	$(CC) -o $@ $^ $(CFLAGS)

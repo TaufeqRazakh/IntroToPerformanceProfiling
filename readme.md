@@ -36,26 +36,29 @@ They make use of the performance counter hardware that is in-built to the archit
 To check if hardware event-based sampling is enabled on your allocated compute node:
 $ cat /proc/sys/kernel/perf_event_paranoid ----> it should give a value of 0
 
-The directory [cpu_profiling](/cpu_profiling) has the source code to calculate pi over 100000 bins.
+The directory [cpu_profiling](/cpu_profiling) has the source code for this section of the tutorial.
 
-We provide a `Makefile` with rules to build the binaries for serial (single threaded) and parallel (multi threaded) calculation of pi. You are already familiar with the these codes from previous assignments.
+We start with the hotspot analysis on Discovery. Within the [hotspot_analysis](/cpu_profiling/hotspot_analysis) directory we provide the code for serial (single threaded) and parallel (multi threaded) calculation of pi along with the `Makefile` containing rules to build the binaries. You are already familiar with the these codes from previous assignments.
 
 For VTune analysis applications must be compiled with the Intel® Compiler, we can invoke the suitable compiler by loading the load the necessary modules - `intel-oneapi` on discovery cluster with the following commands.
 
 ```
-salloc -n 1 -p debug
-module load intel-oneapi
+salloc --nodes=1 --ntasks=1 --cpus-per-task=2 --partition=debug
+module purge
+module load intel-oneapi/2021.3
 ```
 
-We can now build the binaries with the following `make` commands.
+We can now build the binaries using the following `make` commands.
 
 ```
 make singlethreaded_pi_calc
 make multithreaded_pi_calc
+```
+You should have two executables in your working directory.
+Set the environment to limit the OpenMp threads
+```
 export OMP_NUM_THREADS=2
 ```
-
-You should have two executables in your working directory.
 
 Try executing the binaries and see if you get the value of pi
 
@@ -66,7 +69,7 @@ $ ./multithreaded_pi_calc
 PI = 3.141593
 ```
 
-Get a profile report with the following commands
+Not we capture some profile reports with the following commands
 ```
 vtune -collect hotspots -result-dir rSingleThread ./singlethreaded_pi_calc
 vtune -collect hotspots -result-dir rMultiThread ./multithreaded_pi_calc
@@ -81,27 +84,27 @@ vtune -report summary -result-dir rSingleThread/
 vtune -report summary -result-dir rMultiThread/
 ```
 
-We prefer using the GUI for analysis since it is feature rich and helps in top which help in code and performance analysis. Launch the GUI as listed in the pre-requisite section.
+We prefer using the GUI for analysis since it is feature rich and helps with the top-down tree view during analysis. Launch the GUI as listed in the pre-requisite section.
 
-To load the profile report click on the three lines displayed on the left bar and select open > Result > \<your report file>
+To load the profile report click on the three lines displayed on the left bar and select open > Result > \<your report file>. Your report file will end with a .vtune extension.
 
 ## Inferences
 ![omp_2_thread_summary](img/omp_2_thread_summary.png)
 We see that a total of 2 threads are created in the execution
 ![omp_2_thread_activity](img/omp_2_thread_activity.png)
-We can analyse the activity of the threads that we create
+We can analyze the activity of the threads that are forked
 ![omp_2_function_memory_allocation](img/omp_2_function_memory_allocation.png)
 We also see the memory allocations and deallocations happening across the call stack.
 
 ## Roofline analysis with advisor
-
-in the same working directory as before, type in the following command
+For this section we will be working in Devclouds compute node. We will be referring to the sample code that is provided by intel and placed under the [roofline_analysis](/cpu_profiling/roofline_analysis) directory.
+Compile the project with the `make` command and generate a roofline report with the following command.
 
 ```
  advixe-cl -collect roofline -project-dir roofline_analysis ./multithreaded_pi_calc
 ```
 
-Import the report to your local machine and view it with the Advisor GUI.
+Import the report to your local machine and view it with the Advisor GUI. Steps to download and open advisor are mentioned in the pre-requisite section. 
 
 ## Quirks
 

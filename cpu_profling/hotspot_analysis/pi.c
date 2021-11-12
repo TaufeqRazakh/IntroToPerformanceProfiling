@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define NBIN 100000
+#define NBIN 10000000
 int main() {
 	long long i;
 	double step,x,sum=0.0,pi;
