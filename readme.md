@@ -32,7 +32,9 @@ Today's steps should give you an idea about how to carry out algorithm(hotspot),
 - [PAPI](http://icl.cs.utk.edu/papi/)
 
 > How does a profiler work ?
-They make use of the performance counter hardware that is in-built to the architecture
+They make use of the performance counter hardware that is in-built to the architecture.
+To check if hardware event-based sampling is enabled on your allocated compute node:
+$ cat /proc/sys/kernel/perf_event_paranoid ----> it should give a value of 0
 
 The directory [cpu_profiling](/cpu_profiling) has the source code to calculate pi over 100000 bins.
 
@@ -101,6 +103,13 @@ in the same working directory as before, type in the following command
 
 Import the report to your local machine and view it with the Advisor GUI.
 
+## Quirks
+
+To see the list of available architecture-specific libraries on your compute node use the `$lscpu` command. We use the `-march=core-avx2` option when compiling on Discovery's compute nodes since the compute node on debug queue support the [Advenced Vector Instructions](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions)(AVX).
+To precisely check for AVX compatibility try
+`lscpu | grep avx` on your allocated compute node.
 
 
-Next we will study accelerator analysis(GPU offload).  
+## Acknowledgements
+
+A huge thanks to Prof. Nakano for suggesting I present performance profiling tools to the Fall 21 class of CSCI 596. I am also indebted to Dr. Marco Olguin, Computational Scientist at USC CARC for all the information and support in making the profiling and roofline analysis possible on Discovery's nodes.
