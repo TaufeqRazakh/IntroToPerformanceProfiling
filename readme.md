@@ -112,4 +112,4 @@ To precisely check for AVX compatibility try
 
 ## Acknowledgements
 
-A huge thanks to Prof. Nakano for suggesting I present performance profiling tools to the Fall 21 class of CSCI 596. I am also indebted to Dr. Marco Olguin, Computational Scientist at USC CARC for all the information and support in making the profiling and roofline analysis possible on Discovery's nodes.
+A huge thanks to Prof. Aiichiro Nakano for suggesting I present performance profiling tools to the Fall 21 class of CSCI 596. I am also indebted to Dr. Marco Olguin, Computational Scientist at USC CARC for all the information and support in making the profiling and roofline analysis possible on Discovery's nodes.
