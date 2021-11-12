@@ -88,7 +88,7 @@ We prefer using the GUI for analysis since it is feature rich and helps with the
 
 To load the profile report click on the three lines displayed on the left bar and select open > Result > \<your report file>. Your report file will end with a .vtune extension.
 
-## Inferences
+## Inference
 ![omp_2_thread_summary](img/omp_2_thread_summary.png)
 We see that a total of 2 threads are created in the execution
 ![omp_2_thread_activity](img/omp_2_thread_activity.png)
@@ -117,6 +117,9 @@ To see the list of available architecture-specific libraries on your compute nod
 To precisely check for AVX compatibility try
 `lscpu | grep avx` on your allocated compute node.
 
+## Inference
+![demo_roofline](img/demo_roofline.png)
+We see our program sits in a region which signals it is approaching the limits of the bandwidth and compute bounds of the architecture.
 
 ## Acknowledgements
 
