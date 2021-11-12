@@ -1,4 +1,4 @@
-# Vtune & Nsight Profiling
+# Vtune & Nvprof Profiling
 CSCI 596: Scientific Computing and Visualization
 
 ## Pre-requisite - Installing the profiler GUI
@@ -15,6 +15,9 @@ Upon installation, launch the GUI from from the installation directory depending
 - windows: [Program Files]\Intel\oneAPI\advisor\<version>
 - Linux OS: /opt/intel/oneapi/advisor/\<version>
 - mac OS: /opt/intel/oneapi/advisor/\<version>
+
+
+Download Nvidia Visual Profiler from [here](https://developer.nvidia.com/nvidia-visual-profiler). You might sometimes be asked to make an account with Nvidia before you can actually download.
 
 ## CPU profiling with Vtune
 
@@ -96,8 +99,8 @@ We can analyze the activity of the threads that are forked
 ![omp_2_function_memory_allocation](img/omp_2_function_memory_allocation.png)
 We also see the memory allocations and deallocations happening across the call stack.
 
-## Roofline analysis with advisor
-For this section we will be working on Devcloud's compute node. We will be referring to the sample code provided by intel. This is made available to you under the [roofline_analysis](/cpu_profiling/roofline_analysis) directory.
+## Roofline analysis with Advisor
+For this section move to working on Devcloud's compute node. We will be referring to the sample code provided by intel. This is made available to you under the [roofline_analysis](/cpu_profiling/roofline_analysis) directory.
 
 We request compute resources with the following command
 ```
@@ -121,6 +124,30 @@ To precisely check for AVX compatibility try
 ![demo_roofline](img/demo_roofline.png)
 We see our program sits in a region which signals it is approaching the limits of the bandwidth and compute bounds of the architecture.
 
+## GPU hostspot analysis with Nvidia Visual Vrofiler and nvprof tool
+`nvprof` is the command line tool used to profile on Nvidia GPU accelerated architectures. Visual Profiler is the GUI that is used to interactively analyze the collected data.  
+We will be going back to HPC to try this part of the tutorial. The code for this part of the tutorial is available in the `gpu_profiling`(/gpu_profiling) directory.
+
+Start by requesting the GPU compute nodes with the following command.
+```
+salloc --partition=debug --gres=gpu:p100:1 --time=00:30:00
+```
+load nvidia sdk and compile
+```
+module load pgi-nvhpc/20.7
+nvcc -o pi pi.cu
+```
+Collect a report with nvprof
+```
+nvprof --metrics achieved_occupancy,ipc -o occupancy.prof ./pi
+nvprof -o timeline.prof ./pi
+```
+Open up NVVP on your local system and analyze the results.
+
+You'll notice something like the plots below.
+See how Malloc and memcopy take up the highest bandwidth?
+
+![nvprof_timeline](img/nvprof_timeline.png)
 ## Acknowledgements
 
 A huge thanks to Prof. Aiichiro Nakano for suggesting I present performance profiling tools to the CSCI 596 class of Fall 21. I am also indebted to Dr. Marco Olguin, Computational Scientist at USC CARC for all the information and support in making the profiling and roofline analysis possible on Discovery's nodes.
