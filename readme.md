@@ -22,7 +22,7 @@ Download Nvidia Visual Profiler from [here](https://developer.nvidia.com/nvidia-
 ## CPU profiling with Vtune
 
 The purpose of profiling is to gain insight into the performance of a program while it runs on a given architecture.
-We will first try to understand how to carry out profiling on CPU's and then move on on GPU's.
+We will first try to understand how to carry out profiling on CPU's and then move on to GPU's.
 
 Today's steps should give you an idea about how to carry out algorithm(hotspot), microarchitecture(memory access) and parallelism(threading) analysis for different architectures.
 
